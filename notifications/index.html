@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <script type="text/javascript">
+        	
+
+        	function request(mensagem){					
+
+
+        		Notification.requestPermission().then(function(result) {
+
+        				
+				  if (result === 'denied') {
+				    console.log('Permission wasn\'t granted. Allow a retry.');
+				    return;	  
+				  
+				  }else{
+				  	notifyMe(mensagem);	
+				  }
+
+				  
+				});
+        	}
+
+			function notifyMe(mensagem) {				
+
+				var options = {
+				      body: mensagem,
+				      icon: "web.png",
+				  }
+
+				var notification;
+
+			  // Let's check if the browser supports notifications
+			  if (!("Notification" in window)) {
+			    alert("Este browser não suporta notificações");
+			  }
+
+			  // Let's check whether notification permissions have already been granted
+			  else if (Notification.permission === "granted") {
+			  	
+			    // If it's okay let's create a notification
+			     notification = new Notification("Minha Primeira Notificação", options);
+			  }
+			  // Otherwise, we need to ask the user for permission
+			  else if (Notification.permission !== 'denied') {
+			    Notification.requestPermission(function (permission) {
+			      // If the user accepts, let's create a notification
+			      if (permission === "granted") {
+			         notification = new Notification("Olá", "Minha primeira notificação");
+
+			      }
+			    });
+			  }
+
+			  setTimeout(notification.close.bind(notification), 5000); 
+
+			  
+			}		
+
+
+        </script>
+        
+        <TITLE>Teste</TITLE>
+    </head>
+
+<body onload="request('Você possui 10 erros')">
+
+
+<input type="button"  onclick="notifyMe()" value="exibir"></button>
+</body>
+
+</html>
